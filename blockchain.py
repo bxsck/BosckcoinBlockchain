@@ -87,7 +87,7 @@ def get_chain():
 #check is the chain valid
 @app.route('/is_valid', methods=['GET'])
 def is_valid():
-    is_valid=blockchain.is_chain_valid()
+    is_valid=blockchain.is_chain_valid(blockchain.chain)
     if is_valid :
         response={'message':'The chain is valid'}
     else :
