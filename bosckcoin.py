@@ -146,5 +146,30 @@ def add_transaction():
     response ={'message' : f'This transaction will be added to Block {index}'}
     return jsonify(response), 201
 
+#Decentralize 
+#connecting new nodes
+@app.route('/connect_node',methods=['POST'])
+def connect_node():
+    json = request.get_json()
+    nodes = json.get('nodes')
+    if nodes is None:
+        return "No node", 400
+    for node in nodes:
+        blockchain.add_node(node)
+    response = {'message' : 'All the node are now connected, The Bosckcoin blockchain now contains the following nodes',
+                'total_nodes':list(blockchain.nodes)}
+    return jsonify(response), 201
+#replacing the chain by the longest chain
+@app.route('/replace_chain',methods=['GET'])
+def replace_chain():
+    is_chain_replaced = blockchain.replace_chain()
+    if is_chain_replaced:
+        response={'message':'The nodes had different chains so the chain was replaced by the longest one.',
+                  'new_chain':blockchain.chain}
+    else:
+        response={'message':'Everything fine, the chain is the longest one.',
+                  'actaul_chain':blockchain.chain}
+    return jsonify(response), 200
+    
 #run
 app.run(host='0.0.0.0',port=5000)
