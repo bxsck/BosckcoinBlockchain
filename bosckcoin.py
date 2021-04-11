@@ -68,7 +68,7 @@ class Blockchain:
         self.transactions.append({'sender': sender,
                                   'receiver': receiver,
                                   'amount': amount})
-        previous_block = get_previous_block()
+        previous_block = blockchain.get_previous_block()
         return previous_block['index'] + 1
     
     def add_node(self, address):
@@ -115,7 +115,7 @@ def mine_block():
                 'timestamp' : block['timestamp'],
                 'proof': block['proof'],
                 'previous-hash':block['previous_hash'],
-                'transactions':block['transaction']}
+                'transactions':block['transactions']}
     return jsonify(response), 200
 
 #Getting the full blockchain
